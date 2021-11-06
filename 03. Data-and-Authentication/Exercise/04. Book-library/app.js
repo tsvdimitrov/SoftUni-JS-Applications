@@ -1,9 +1,25 @@
 const tbody = document.querySelector('tbody');
+const createForm = document.getElementById('createForm');
+const editForm = document.getElementById('editForm');
 document.getElementById('loadBooks').addEventListener('click', loadBooks);
-document.getElementById('createForm').addEventListener('submit', onCreate);
+createForm.addEventListener('submit', onCreate);
+editForm.addEventListener('submit', onEditSubmit);
 tbody.addEventListener('click', onTableClick);
 
 loadBooks();
+
+async function onEditSubmit(event) {
+
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    const author = formData.get('author');
+    const title = formData.get('title');
+
+    const result = await updateBook(id, { author, title });
+    tbody.appendChild(createRow(result._id, result));
+    event.target.reset();
+}
 
 function onTableClick(event) {
 
@@ -19,6 +35,12 @@ async function onEdit(button) {
     const id = button.parentElement.dataset.id;
     const book = await loadBookById(id);
 
+    createForm.style.display = 'none';
+    editForm.style.display = 'block';
+
+    editForm.querySelector('[name="id"]').value = id;
+    editForm.querySelector('[name="author"]').value = book.author;
+    editForm.querySelector('[name="title"]').value = book.title;
 }
 
 async function onDelete(button) {
