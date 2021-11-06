@@ -13,12 +13,17 @@ async function onEditSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
 
+    const id = formData.get('id');
     const author = formData.get('author');
     const title = formData.get('title');
 
     const result = await updateBook(id, { author, title });
-    tbody.appendChild(createRow(result._id, result));
+
     event.target.reset();
+    createForm.style.display = 'block';
+    editForm.style.display = 'none';
+
+    loadBooks();
 }
 
 function onTableClick(event) {
