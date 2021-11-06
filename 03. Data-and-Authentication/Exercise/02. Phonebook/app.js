@@ -11,14 +11,14 @@ async function loadContacts() {
 
     const res = await fetch('http://localhost:3030/jsonstore/phonebook');
     const data = await res.json();
-
-    Object.values(data).map(createItem).forEach(i => list.appendChild(i));
+    
+    list.replaceChildren(...Object.values(data).map(createItem));
 }
 
 function createItem(contact) {
 
     const liElement = document.createElement('li');
-    liElement.innerHTML = `${contact.person}: ${contact.phone} <button>[Delete]</button`;
+    liElement.innerHTML = `${contact.person}: ${contact.phone} <button>[Delete]</button>`;
 
     return liElement;
 }
