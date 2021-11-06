@@ -21,7 +21,6 @@ async function onDelete(event) {
         await deleteContact(id);
         event.target.parentNode.remove();
     }
-
 }
 
 async function onCreate() {
