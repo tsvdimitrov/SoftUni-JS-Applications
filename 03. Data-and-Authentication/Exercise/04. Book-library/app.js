@@ -132,7 +132,7 @@ async function request(url, options) {
         Object.assign(options, {
             headers: {
                 'Content-Type': 'application/json'
-            },
+            }
         });
     }
 
