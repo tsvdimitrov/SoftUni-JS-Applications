@@ -3,6 +3,8 @@ function attachEvents() {
     document.getElementById('btnLoad').addEventListener('click', loadContacts);
     document.getElementById('btnCreate').addEventListener('click', onCreate);
 
+    list.addEventListener('click', onDelete);
+
     loadContacts();
 }
 
@@ -12,15 +14,25 @@ const phoneInput = document.getElementById('phone');
 
 attachEvents();
 
+async function onDelete(event) {
+
+    const id = event.target.dataset.id;
+    if (id != undefined) {
+        await deleteContact(id);
+        event.target.parentNode.remove();
+    }
+
+}
+
 async function onCreate() {
 
     const person = personInput.value;
     const phone = phoneInput.value;
     const contact = { person, phone };
 
-    await createContact(contact);
+    const result = await createContact(contact);
 
-    list.appendChild(createItem(contact));
+    list.appendChild(createItem(result));
 }
 
 async function loadContacts() {
@@ -34,7 +46,7 @@ async function loadContacts() {
 function createItem(contact) {
 
     const liElement = document.createElement('li');
-    liElement.innerHTML = `${contact.person}: ${contact.phone} <button>[Delete]</button>`;
+    liElement.innerHTML = `${contact.person}: ${contact.phone} <button data-id="${contact._id}"">Delete</button>`;
 
     return liElement;
 }
