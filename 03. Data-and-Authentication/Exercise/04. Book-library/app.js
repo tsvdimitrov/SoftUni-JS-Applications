@@ -8,11 +8,17 @@ loadBooks();
 function onTableClick(event) {
 
     if (event.target.className == 'delete') {
-        console.log('clicked delete');
         onDelete(event.target);
     } else if (event.target.className == 'edit') {
-        console.log('clicked edit');
+        onEdit(event.target);
     }
+}
+
+async function onEdit(button) {
+
+    const id = button.parentElement.dataset.id;
+    const book = await loadBookById(id);
+
 }
 
 async function onDelete(button) {
@@ -41,6 +47,13 @@ async function loadBooks() {
 
     const result = Object.entries(books).map(([id, book]) => createRow(id, book));
     tbody.replaceChildren(...result);
+}
+
+async function loadBookById(id) {
+
+    const book = await request('http://localhost:3030/jsonstore/collections/books/' + id);
+
+    return book;
 }
 
 function createRow(id, book) {
