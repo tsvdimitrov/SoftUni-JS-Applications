@@ -1,17 +1,33 @@
 function attachEvents() {
 
-    document.getElementById('btnLoad').addEventListener('click', loadMessages);
+    document.getElementById('btnLoad').addEventListener('click', loadContacts);
+    document.getElementById('btnCreate').addEventListener('click', onCreate);
+
+    loadContacts();
 }
 
 const list = document.getElementById('phonebook');
+const personInput = document.getElementById('person');
+const phoneInput = document.getElementById('phone');
 
 attachEvents();
+
+async function onCreate() {
+
+    const person = personInput.value;
+    const phone = phoneInput.value;
+    const contact = { person, phone };
+
+    await createContact(contact);
+
+    list.appendChild(createItem(contact));
+}
 
 async function loadContacts() {
 
     const res = await fetch('http://localhost:3030/jsonstore/phonebook');
     const data = await res.json();
-    
+
     list.replaceChildren(...Object.values(data).map(createItem));
 }
 
