@@ -1,10 +1,26 @@
 function attachEvents() {
 
     document.getElementById('refresh').addEventListener('click', loadMessages);
-    loadMessages(); 
+    document.getElementById('submit').addEventListener('click', onSubmit);
+    loadMessages();
 }
 
+const authorInput = document.querySelector('[name="author"]');
+const contentInput = document.querySelector('[name="content"]');
+const list = document.getElementById('messages');
+
 attachEvents();
+
+async function onSubmit() {
+
+    const author = authorInput.value;
+    const content = contentInput.value;
+
+    const result = await createMessage({ author, content });
+
+    contentInput.value = '';
+    list.value += '\n' + `${author}: ${content}`;
+}
 
 async function loadMessages() {
 
@@ -14,7 +30,6 @@ async function loadMessages() {
 
     const messages = Object.values(data);
 
-    const list = document.getElementById('messages');
     list.value = messages.map(m => `${m.author}: ${m.content}`).join('\n');
 }
 
