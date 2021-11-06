@@ -1,1 +1,1 @@
-# tsvdimitrov-SoftUni-JS-Applications-October-2021
+# tsvdimitrov-SoftUni-JS-Applications
