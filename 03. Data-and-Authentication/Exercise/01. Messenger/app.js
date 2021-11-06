@@ -1,7 +1,7 @@
 function attachEvents() {
 
-    loadMessages(); 
     document.getElementById('refresh').addEventListener('click', loadMessages);
+    loadMessages(); 
 }
 
 attachEvents();
