@@ -10,7 +10,31 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     document.querySelector('.load').addEventListener('click', loadData);
+
+    document.getElementById('addForm').addEventListener('submit, onCreateSubmit')
 });
+
+async function onCreateSubmit(event) {
+
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    const data = [...formData.entries()].reduce((a, [k, v]) => Object.assign(a, { [k]: v }), {});
+
+    try {
+        const res = await fetch('http://localhost:3030/data/catches', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': userData.token
+            },
+            body: JSON.stringify(data);
+        })
+    } catch (err) {
+        alert(err.message);
+    }
+
+}
 
 async function loadData() {
 
