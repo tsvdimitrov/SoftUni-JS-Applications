@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('login');
+    const form = document.querySelector('form');
     form.addEventListener('submit', onLogin);
 });
 
@@ -12,7 +12,7 @@ async function onLogin(event) {
     const password = formData.get('password');
 
     try {
-        const res = await fetch('http:localhost:3030/users/login', {
+        const res = await fetch('http://localhost:3030/users/login', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -26,9 +26,17 @@ async function onLogin(event) {
         }
 
         const data = await res.json();
-        const token = data.accessToken;
+        const userData = {
+            email: data.email,
+            id: data._id,
+            token: data.accessToken
+        };
+
+        sessionStorage.setItem('userData', JSON.stringify(userData));
+        window.location = '/index.html';
 
     } catch (err) {
 
+        alert(error.message);
     }
 }
