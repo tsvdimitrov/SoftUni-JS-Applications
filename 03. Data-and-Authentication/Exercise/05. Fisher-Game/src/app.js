@@ -47,6 +47,9 @@ async function onCreateSubmit(event) {
             throw new Error(error.message);
         }
 
+        event.target.reset();
+        loadData();
+
     } catch (err) {
         alert(err.message);
     }
