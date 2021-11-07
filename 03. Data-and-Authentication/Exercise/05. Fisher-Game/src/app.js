@@ -17,19 +17,36 @@ window.addEventListener('DOMContentLoaded', () => {
 async function onCreateSubmit(event) {
 
     event.preventDefault();
+
+    if (!userData) {
+        window.location = '/login.html';
+        return;
+    }
+
     const formData = new FormData(event.target);
 
     const data = [...formData.entries()].reduce((a, [k, v]) => Object.assign(a, { [k]: v }), {});
 
     try {
+
+        if (Object.values(data).some(x => x == '')) {
+            throw new Error('All fields are required!');
+        }
+
         const res = await fetch('http://localhost:3030/data/catches', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Authorization': userData.token
             },
-            body: JSON.stringify(data);
-        })
+            body: JSON.stringify(data)
+        });
+
+        if (res.ok != true) {
+            const error = await res.json();
+            throw new Error(error.message);
+        }
+
     } catch (err) {
         alert(err.message);
     }
