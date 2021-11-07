@@ -1,1 +1,4 @@
-console.log('TODO:// Implement Login functionality');
+window.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('login');
+    form.addEventListener('submit', onLogin);
+});
